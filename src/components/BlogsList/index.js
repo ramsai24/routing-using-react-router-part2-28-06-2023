@@ -1,8 +1,11 @@
 import {Component} from 'react'
+import Loader from 'react-loader-spinner'
 
 import BlogItem from '../BlogItem'
 
 import './index.css'
+// this statement written wrong below statement is correct import 'react-loader-spinner/dist/loader/css/react-loader-spinner.css'
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 
 // const blogsData = [
 //   {
@@ -24,7 +27,7 @@ import './index.css'
 // ]
 
 class BlogsList extends Component {
-  state = {blogsData: []}
+  state = {blogsData: [], isLoading: true}
 
   componentDidMount() {
     this.getBlogsData()
@@ -43,17 +46,19 @@ class BlogsList extends Component {
     }))
     // console.log(data)
     console.log(updateData)
-    this.setState({blogsData: updateData})
+    this.setState({blogsData: updateData, isLoading: false})
   }
 
   render() {
-    const {blogsData} = this.state
+    const {blogsData, isLoading} = this.state
 
     return (
       <div className="blog-list-container">
-        {blogsData.map(item => (
-          <BlogItem blogData={item} key={item.id} />
-        ))}
+        {isLoading ? (
+          <Loader type="TailSpin" color="#00BFFF" height={50} width={50} />
+        ) : (
+          blogsData.map(item => <BlogItem blogData={item} key={item.id} />)
+        )}
       </div>
     )
   }
